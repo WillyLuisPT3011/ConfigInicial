@@ -251,6 +251,7 @@ int main() {
 		
 		// Swap the screen buffers
 		glfwSwapBuffers(window);
+
 	
 	}
 	glDeleteVertexArrays(1, &VAO);
