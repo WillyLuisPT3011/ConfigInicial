@@ -1,4 +1,4 @@
-//Práctica 3: Proyecciones, transformaciones y Shaders
+//Práctica 4: Proyecciones, transformaciones y Shaders
 //Arroyo Chavarría José Luis
 //Número de cuenta : 317290967
 //Fecha : 25 / 02 / 2025
@@ -202,38 +202,222 @@ int main() {
 
 		glBindVertexArray(VAO);
 		
-		// Tabla
+		// Capturas con lo datos/codigo
+		// 1 pie
 	    model = glm::mat4(1.0f);
-		model = glm::scale(model, glm::vec3(3.5f, 0.5f, 1.5f)); //Ancho, grosor, profundidad
-		model = glm::translate(model, glm::vec3(0.0f, 0.7f, 0.0f)); //Posicion
+		model = glm::scale(model, glm::vec3(2.0f, 1.0f, 3.5f)); //Ancho, grosor, profundidad
+		model = glm::translate(model, glm::vec3(0.0f, 0.5f, 0.0f)); //Posicion
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 		
-		// 1 pata
+		//// 1 detalle de bota
 		model = glm::mat4(1.0f);
-		model = glm::scale(model, glm::vec3(0.5f, 1.0f, 0.1f)); //Tamaño
-		model = glm::translate(model, glm::vec3(2.9f, -0.6f, 1.9f)); //Posicion
+		model = glm::scale(model, glm::vec3(2.0f, 0.7f, 3.0f)); //Tamaño
+		model = glm::translate(model, glm::vec3(0.0f, 1.8f, -0.08f)); //Posicion
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 
-		// 2 pata
+		// 2 pie
 		model = glm::mat4(1.0f);
-		model = glm::scale(model, glm::vec3(0.5f, 1.0f, 0.1f)); //Tamaño
-		model = glm::translate(model, glm::vec3(-2.9f, -0.6f, 1.9f)); //Posicion
+		model = glm::scale(model, glm::vec3(2.0f, 1.0f, 3.5f)); //Ancho, grosor, profundidad
+		model = glm::translate(model, glm::vec3(2.0f, 0.5f, 0.0f)); //Posicion
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 
-		// 3 pata
+		// 2 detalle de bota
 		model = glm::mat4(1.0f);
-		model = glm::scale(model, glm::vec3(0.5f, 1.0f, 0.1f)); //Tamaño
-		model = glm::translate(model, glm::vec3(-2.9f, -0.6f, -1.9f)); //Posicion
+		model = glm::scale(model, glm::vec3(2.0f, 0.7f, 3.0f)); //Tamaño
+		model = glm::translate(model, glm::vec3(2.0f, 1.8f, -0.08f)); //Posicion
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 
-		// 4 pata
+		// torso
 		model = glm::mat4(1.0f);
-		model = glm::scale(model, glm::vec3(0.5f, 1.0f, 0.1f)); //Tamaño
-		model = glm::translate(model, glm::vec3(2.9f, -0.6f, -1.9f)); //Posicion
+		model = glm::scale(model, glm::vec3(4.0f, 5.5f, 2.5f)); //Tamaño
+		model = glm::translate(model, glm::vec3(0.5f, 0.79f, -0.6f)); //Posicion
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		// cuello
+		model = glm::mat4(1.0f);
+		model = glm::scale(model, glm::vec3(3.0f, 0.5f, 1.5f)); //Tamaño
+		model = glm::translate(model, glm::vec3(0.65f, 14.5f, -1.0f)); //Posicion
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		// cabeza
+		model = glm::mat4(1.0f);
+		model = glm::scale(model, glm::vec3(5.0f, 5.5f, 5.0f)); //Tamaño
+		model = glm::translate(model, glm::vec3(0.4f, 1.85f, -0.28f)); //Posicion
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		// pico 1
+		model = glm::mat4(1.0f);  // Restablecer matriz de modelo
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f)); // Ajusta el tamaño del pico
+		model = glm::translate(model, glm::vec3(0.0f, 7.94f, -4.4f)); // Ajusta la posición del pico
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		model = glm::mat4(1.0f);  // Restablecer matriz de modelo
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f)); // Ajusta el tamaño del pico
+		model = glm::translate(model, glm::vec3(0.0f, 7.94f, -5.4f)); // Ajusta la posición del pico
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		model = glm::mat4(1.0f);  // Restablecer matriz de modelo
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f)); // Ajusta el tamaño del pico
+		model = glm::translate(model, glm::vec3(0.0f, 7.94f, -6.4f)); // Ajusta la posición del pico
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		model = glm::mat4(1.0f);  // Restablecer matriz de modelo
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f)); // Ajusta el tamaño del pico
+		model = glm::translate(model, glm::vec3(0.0f, 8.94f, -4.4f)); // Ajusta la posición del pico
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		model = glm::mat4(1.0f);  // Restablecer matriz de modelo
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f)); // Ajusta el tamaño del pico
+		model = glm::translate(model, glm::vec3(0.0f, 8.94f, -5.4f)); // Ajusta la posición del pico
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		model = glm::mat4(1.0f);  // Restablecer matriz de modelo
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f)); // Ajusta el tamaño del pico
+		model = glm::translate(model, glm::vec3(0.0f, 9.94f, -4.4f)); // Ajusta la posición del pico
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		// pico 2
+		model = glm::mat4(1.0f);  // Restablecer matriz de modelo
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f)); // Ajusta el tamaño del pico
+		model = glm::translate(model, glm::vec3(4.0f, 7.94f, -4.4f)); // Ajusta la posición del pico
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		model = glm::mat4(1.0f);  // Restablecer matriz de modelo
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f)); // Ajusta el tamaño del pico
+		model = glm::translate(model, glm::vec3(4.0f, 7.94f, -5.4f)); // Ajusta la posición del pico
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		model = glm::mat4(1.0f);  // Restablecer matriz de modelo
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f)); // Ajusta el tamaño del pico
+		model = glm::translate(model, glm::vec3(4.0f, 7.94f, -6.4f)); // Ajusta la posición del pico
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		model = glm::mat4(1.0f);  // Restablecer matriz de modelo
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f)); // Ajusta el tamaño del pico
+		model = glm::translate(model, glm::vec3(4.0f, 8.94f, -4.4f)); // Ajusta la posición del pico
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		model = glm::mat4(1.0f);  // Restablecer matriz de modelo
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f)); // Ajusta el tamaño del pico
+		model = glm::translate(model, glm::vec3(4.0f, 8.94f, -5.4f)); // Ajusta la posición del pico
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		model = glm::mat4(1.0f);  // Restablecer matriz de modelo
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f)); // Ajusta el tamaño del pico
+		model = glm::translate(model, glm::vec3(4.0f, 9.94f, -4.4f)); // Ajusta la posición del pico
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		// pico 3
+		model = glm::mat4(1.0f);  // Restablecer matriz de modelo
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f)); // Ajusta el tamaño del pico
+		model = glm::translate(model, glm::vec3(2.0f, 10.48f, -4.4f)); // Ajusta la posición del pico
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		model = glm::mat4(1.0f);  // Restablecer matriz de modelo
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f)); // Ajusta el tamaño del pico
+		model = glm::translate(model, glm::vec3(2.0f, 10.48f, -5.4f)); // Ajusta la posición del pico
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		model = glm::mat4(1.0f);  // Restablecer matriz de modelo
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f)); // Ajusta el tamaño del pico
+		model = glm::translate(model, glm::vec3(2.0f, 10.48f, -6.4f)); // Ajusta la posición del pico
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		model = glm::mat4(1.0f);  // Restablecer matriz de modelo
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f)); // Ajusta el tamaño del pico
+		model = glm::translate(model, glm::vec3(2.0f, 11.48f, -4.4f)); // Ajusta la posición del pico
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		model = glm::mat4(1.0f);  // Restablecer matriz de modelo
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f)); // Ajusta el tamaño del pico
+		model = glm::translate(model, glm::vec3(2.0f, 11.48f, -5.4f)); // Ajusta la posición del pico
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		model = glm::mat4(1.0f);  // Restablecer matriz de modelo
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f)); // Ajusta el tamaño del pico
+		model = glm::translate(model, glm::vec3(2.0f, 12.48f, -4.4f)); // Ajusta la posición del pico
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		// pico 4
+		model = glm::mat4(1.0f);  // Restablecer matriz de modelo
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f)); // Ajusta el tamaño del pico
+		model = glm::translate(model, glm::vec3(2.0f, 7.94f, -4.4f)); // Ajusta la posición del pico
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		model = glm::mat4(1.0f);  // Restablecer matriz de modelo
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f)); // Ajusta el tamaño del pico
+		model = glm::translate(model, glm::vec3(2.0f, 7.94f, -5.4f)); // Ajusta la posición del pico
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		model = glm::mat4(1.0f);  // Restablecer matriz de modelo
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f)); // Ajusta el tamaño del pico
+		model = glm::translate(model, glm::vec3(2.0f, 8.94f, -4.4f)); // Ajusta la posición del pico
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		// pico 5
+		model = glm::mat4(1.0f);  // Restablecer matriz de modelo
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f)); // Ajusta el tamaño del pico
+		model = glm::translate(model, glm::vec3(3.0f, 9.94f, -4.4f)); // Ajusta la posición del pico
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		model = glm::mat4(1.0f);  // Restablecer matriz de modelo
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f)); // Ajusta el tamaño del pico
+		model = glm::translate(model, glm::vec3(3.0f, 9.94f, -5.4f)); // Ajusta la posición del pico
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		model = glm::mat4(1.0f);  // Restablecer matriz de modelo
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f)); // Ajusta el tamaño del pico
+		model = glm::translate(model, glm::vec3(3.0f, 10.94f, -4.4f)); // Ajusta la posición del pico
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		// pico 6
+		model = glm::mat4(1.0f);  // Restablecer matriz de modelo
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f)); // Ajusta el tamaño del pico
+		model = glm::translate(model, glm::vec3(1.0f, 9.94f, -4.4f)); // Ajusta la posición del pico
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		model = glm::mat4(1.0f);  // Restablecer matriz de modelo
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f)); // Ajusta el tamaño del pico
+		model = glm::translate(model, glm::vec3(1.0f, 9.94f, -5.4f)); // Ajusta la posición del pico
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		model = glm::mat4(1.0f);  // Restablecer matriz de modelo
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f)); // Ajusta el tamaño del pico
+		model = glm::translate(model, glm::vec3(1.0f, 10.94f, -4.4f)); // Ajusta la posición del pico
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 
@@ -254,21 +438,21 @@ int main() {
 	 if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)  //GLFW_RELEASE
 		 glfwSetWindowShouldClose(window, true);
 	 if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		 movX += 0.08f;
+		 movX += 0.0016f;
 	 if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		 movX -= 0.08f;
+		 movX -= 0.0016f;
 	 if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-		 movY += 0.08f;
+		 movY += 0.0016f;
 	 if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-		 movY -= 0.08f;
+		 movY -= 0.0016f;
 	 if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		 movZ -= 0.08f;
+		 movZ -= 0.0016f;
 	 if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		 movZ += 0.08f;
+		 movZ += 0.0016f;
 	 if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-		 rot += 0.4f;
+		 rot += 0.08f;
 	 if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
-		 rot -= 0.4f;
+		 rot -= 0.08f;
  }
 
 
