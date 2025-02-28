@@ -33,7 +33,7 @@ int main() {
 
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
-	GLFWwindow *window = glfwCreateWindow(WIDTH, HEIGHT, "Práctica 4_Modelado geometrico_JoseLuisArroyo", nullptr, nullptr);
+	GLFWwindow *window = glfwCreateWindow(WIDTH, HEIGHT, "Practica 4_Modelado geometrico_JoseLuisArroyo", nullptr, nullptr);
 
 	int screenWidth, screenHeight;
 
@@ -503,6 +503,19 @@ int main() {
 		model = glm::mat4(1.0f);  // Restablecer matriz de modelo
 		model = glm::scale(model, glm::vec3(0.5f, 2.0f, 1.0f)); // Ajusta el tamaño del pico
 		model = glm::translate(model, glm::vec3(6.25f, 5.6f, 1.25f)); // Ajusta la posición del pico
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		//Labios
+		model = glm::mat4(1.0f);  // Restablecer matriz de modelo
+		model = glm::scale(model, glm::vec3(1.5f, 0.5f, 1.5f)); // Ajusta el tamaño del pico
+		model = glm::translate(model, glm::vec3(1.4f, 16.0f, 0.76f)); // Ajusta la posición del pico
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		model = glm::mat4(1.0f);  // Restablecer matriz de modelo
+		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 1.5f)); // Ajusta el tamaño del pico
+		model = glm::translate(model, glm::vec3(6.3f, 17.0f, 0.76f)); // Ajusta la posición del pico
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 
