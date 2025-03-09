@@ -1,7 +1,7 @@
 ﻿//Práctica 5: Modelado Jerárquico en OpenGL
 //Arroyo Chavarría José Luis
 //Número de cuenta : 317290967
-//Fecha : 04 / 03 / 2025
+//Fecha : 09 / 03 / 2025
 
 #include<iostream>
 #include <GL/glew.h>
