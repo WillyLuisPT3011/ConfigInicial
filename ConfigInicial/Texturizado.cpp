@@ -1,7 +1,7 @@
 ﻿////﻿//Práctica 7: Carga de Texturas en OpenGL Introducción a las UVs
 //////Arroyo Chavarría José Luis
 //////Número de cuenta : 317290967
-//////Fecha : 18 / 03 / 2025
+//////Fecha : 23 / 03 / 2025
 
 #include <iostream>
 #include <cmath>
@@ -104,20 +104,55 @@ int main()
 	// Set up vertex data (and buffer(s)) and attribute pointers
 	GLfloat vertices[] =
 	{
-		// Positions            // Colors              // Texture Coords
-		-0.5f, -0.5f, 0.0f,    1.0f, 1.0f,1.0f,		0.0f,0.0f,
-		0.5f, -0.5f, 0.0f,	   1.0f, 1.0f,1.0f,		4.0f,0.0f,
-		0.5f,  0.5f, 0.0f,     1.0f, 1.0f,1.0f,	    4.0f,4.0f,
-		-0.5f,  0.5f, 0.0f,    1.0f, 1.0f,1.0f,		0.0f,4.0f,
+		// Positions            // Colors               // Texture Coords
 
-		
+		//Frente
+		-0.5f, -0.5f,  0.5f,	1.0f, 1.0f, 1.0f,	    0.25f, 0.33f, // Izquierda abajo
+		 0.5f, -0.5f,  0.5f,	1.0f, 1.0f, 1.0f,	    0.00f, 0.33f, // Derecha abajo
+		 0.5f,  0.5f,  0.5f,	1.0f, 1.0f, 1.0f,		0.00f, 0.67f, // Derecha arriba
+		-0.5f,  0.5f,  0.5f,	1.0f, 1.0f, 1.0f,		0.25f, 0.67f, // Izquierda arriba
+
+		//Atras
+		-0.5f, -0.5f, -0.5f,	1.0f, 1.0f, 1.0f,		0.50f, 0.33f, // Izquierda abajo
+		 0.5f, -0.5f, -0.5f,	1.0f, 1.0f, 1.0f,		0.75f, 0.33f, // Derecha abajo
+		 0.5f,  0.5f, -0.5f,	1.0f, 1.0f, 1.0f,		0.75f, 0.67f, // Derecha arriba
+		-0.5f,  0.5f, -0.5f,	1.0f, 1.0f, 1.0f,		0.50f, 0.67f, // Izquierda arriba
+
+		//Derecha
+		 0.5f, -0.5f,  0.5f,	1.0f, 1.0f, 1.0f,		1.00f, 0.33f, // Izquierda abajo
+		 0.5f, -0.5f, -0.5f,	1.0f, 1.0f, 1.0f,		0.75f, 0.33f, // Derecha abajo
+		 0.5f,  0.5f, -0.5f,	1.0f, 1.0f, 1.0f,		0.75f, 0.67f, // Derecha arriba
+		 0.5f,  0.5f,  0.5f,	1.0f, 1.0f, 1.0f,		1.00f, 0.67f, // Izquierda arriba
+
+		//Izquierda
+		-0.5f, -0.5f,  0.5f,	1.0f, 1.0f, 1.0f,		0.25f, 0.33f, // Izquierda abajo
+		-0.5f, -0.5f, -0.5f,	1.0f, 1.0f, 1.0f,		0.50f, 0.33f, // Derecha abajo
+		-0.5f,  0.5f, -0.5f,	1.0f, 1.0f, 1.0f,		0.50f, 0.67f, // Derecha arriba
+		-0.5f,  0.5f,  0.5f,	1.0f, 1.0f, 1.0f,		0.25f, 0.67f, // Izquierda arriba
+
+		//Abajo
+		-0.5f, -0.5f, -0.5f,	1.0f, 1.0f, 1.0f,		0.25f, 0.00f, // Izquierda abajo
+		 0.5f, -0.5f, -0.5f,	1.0f, 1.0f, 1.0f,		0.50f, 0.00f, // Derecha abajo
+		 0.5f, -0.5f,  0.5f,	1.0f, 1.0f, 1.0f,		0.50f, 0.33f, // Derecha arriba
+		-0.5f, -0.5f,  0.5f,	1.0f, 1.0f, 1.0f,		0.25f, 0.33f, // Izquierda arriba
+
+		//Arriba
+		-0.5f,  0.5f, -0.5f,	1.0f, 1.0f, 1.0f,		0.25f, 0.67f, // Izquierda abajo
+		 0.5f,  0.5f, -0.5f,	1.0f, 1.0f, 1.0f,		0.50f, 0.67f, // Derecha abajo
+		 0.5f,  0.5f,  0.5f,	1.0f, 1.0f, 1.0f,		0.50f, 1.00f, // Derecha arriba
+		-0.5f,  0.5f,  0.5f,	1.0f, 1.0f, 1.0f,		0.25f, 1.00f, // Izquierda arriba
+	
 	};
 
 	GLuint indices[] =
 	{  // Note that we start from 0!
-		0,1,3,
-		1,2,3
-	
+		0, 1, 3, 1, 2, 3,       //Cara de Frente
+		4, 5, 7, 5, 6, 7,       //Cara de Atras
+		8, 9, 11, 9, 10, 11,    //Cara derecha
+		12, 13, 15, 13, 14, 15, //Cara izquierda
+		16, 17, 19,	17, 18, 19, //Cara de abajo 
+		20, 21, 23, 21, 22, 23  //Cara de arriba
+
 	};
 
 	// First, set the container's VAO (and VBO)
@@ -156,7 +191,7 @@ int main()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST_MIPMAP_NEAREST);
 	// Diffuse map
-	image = stbi_load("images/Calavera.png", &textureWidth, &textureHeight, &nrChannels,0);
+	image = stbi_load("images/TNT.png", &textureWidth, &textureHeight, &nrChannels,0);
 	glBindTexture(GL_TEXTURE_2D, texture1);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, textureWidth, textureHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
 	glGenerateMipmap(GL_TEXTURE_2D);
@@ -211,7 +246,7 @@ int main()
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		// Draw the light object (using light's vertex attributes)
 		glBindVertexArray(VAO);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);  //CAMBIAR VALOR POR CADA CARA IMPLEMENTADA
 		glBindVertexArray(0);
 
 		// Swap the screen buffers
