@@ -101,11 +101,11 @@ int main()
     Shader lampshader("Shader/lamp.vs", "Shader/lamp.frag");
     Shader lightingShader("Shader/lighting.vs", "Shader/lighting.frag");
 
-
-
     // Load models
-    /*Model red_dog((char*)"Models/RedDog.obj");*/
-    Model house((char*)"Models/tripo_convert_55966f99-5f0a-4c22-81f2-20d8129f3e6e.obj");
+    Model dog((char*)"Models/RedDog.obj");
+    Model home((char*)"Models/tripo_convert_55966f99-5f0a-4c22-81f2-20d8129f3e6e.obj");
+    Model tree((char*)"Models/tripo_convert_162fbe69-e99e-411e-a99c-a317a3f3ddb7.obj");
+    Model grass((char*)"Models/10450_Rectangular_Grass_Patch_v1_iterations-2.obj"); 
     glm::mat4 projection = glm::perspective(camera.GetZoom(), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
 
     float vertices[] = {
@@ -216,6 +216,7 @@ int main()
         glUniform3f(viewPosLoc, camera.GetPosition().x, camera.GetPosition().y, camera.GetPosition().z);
 
         // Set lights properties
+
         glUniform3f(glGetUniformLocation(lightingShader.Program, "light.ambient"), 0.5f, 0.5f, 0.5f);
         glUniform3f(glGetUniformLocation(lightingShader.Program, "light.diffuse"), 0.6f, 0.6f, 0.6f);
         glUniform3f(glGetUniformLocation(lightingShader.Program, "light.specular"), 0.8f, 0.6f, 0.6f);
@@ -231,15 +232,41 @@ int main()
         glUniform1f(glGetUniformLocation(lightingShader.Program, "material.shininess"), 0.8f);
 
         // Draw the loaded model
-        glm::mat4 model(1);
-        model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
-        glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
-        glBindVertexArray(VAO);
-        house.Draw(lightingShader);
 
-        /*red_dog.Draw(lightingShader);*/
+        // Aplicar transformación a 'dog'
+        glm::mat4 model(1); // Reiniciar a la identidad
+        model = glm::translate(model, glm::vec3(-1.69f, -1.8f, -3.1f));
+        model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+        // Pasar la matriz de transformación al shader
+        glUniformMatrix4fv(glGetUniformLocation(shader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+        dog.Draw(shader);
 
-       /* glDrawArrays(GL_TRIANGLES, 0, 36);*/
+        // Aplicar transformación a 'home'
+        model = glm::mat4(1.0f); // Reiniciar a la identidad
+        model = glm::translate(model, glm::vec3(0.0f, 0.0f, -5.0f));
+        model = glm::scale(model, glm::vec3(8.0f, 8.0f, 8.0f));
+        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        // Pasar la matriz de transformación al shader
+        glUniformMatrix4fv(glGetUniformLocation(shader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+        home.Draw(shader);
+
+        // Aplicar transformación a 'tree'
+        model = glm::mat4(1.0f); // Reiniciar a la identidad
+        model = glm::translate(model, glm::vec3(0.0f, 1.43f, -10.0f));
+        model = glm::scale(model, glm::vec3(20.0f, 20.0f, 10.0f));
+        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        // Pasar la matriz de transformación al shader
+        glUniformMatrix4fv(glGetUniformLocation(shader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+        tree.Draw(shader);
+
+        // Aplicar transformación a 'grass' primera parte 
+        model = glm::mat4(1.0f); // Reiniciar a la identidad
+        model = glm::translate(model, glm::vec3(0.0f, -7.0f, -5.0f));
+        model = glm::scale(model, glm::vec3(10.0f, 0.5f, 10.0f));
+        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(8.0f, 1.0f, 0.0f));
+        // Pasar la matriz de transformación al shader
+        glUniformMatrix4fv(glGetUniformLocation(shader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+        grass.Draw(shader);
         
         glBindVertexArray(0);
 
@@ -248,7 +275,7 @@ int main()
         glUniformMatrix4fv(glGetUniformLocation(lampshader.Program, "view"), 1, GL_FALSE, glm::value_ptr(view));
         model = glm::mat4(1.0f);
         model = glm::translate(model, lightPos + movelightPos);
-        model = glm::scale(model, glm::vec3(0.3f));
+        model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
         glUniformMatrix4fv(glGetUniformLocation(lampshader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 36);
