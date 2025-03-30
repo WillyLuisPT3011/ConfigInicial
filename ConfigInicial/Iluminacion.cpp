@@ -1,7 +1,7 @@
-//Práctica 8: Materiales e Iluminación en OpenGL
-//Arroyo Chavarría José Luis
-//Número de cuenta : 317290967
-//Fecha : 25 / 03 / 2025
+ï»¿//PrÃ¡ctica 8: Materiales e IluminaciÃ³n en OpenGL
+//Arroyo ChavarrÃ­a JosÃ© Luis
+//NÃºmero de cuenta : 317290967
+//Fecha : 30 / 03 / 2025
 
 // Std. Includes
 #include <string>
@@ -34,19 +34,23 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
 void MouseCallback(GLFWwindow* window, double xPos, double yPos);
 void DoMovement();
 
+
 // Camera
 Camera camera(glm::vec3(0.0f, 0.0f, 0.0f));
 bool keys[1024];
 GLfloat lastX = 400, lastY = 300;
 bool firstMouse = true;
 
+
 // Light attributes
 glm::vec3 lightPos(0.5f, 0.5f, 2.5f);
+float radius = 15.0f;  // Trayectoria del sol/luna sobre los modelos a usar dando un movimiento natural
 float movelightPos = 0.0f;
 GLfloat deltaTime = 0.0f;
 GLfloat lastFrame = 0.0f;
 float rot = 0.0f;
 bool activanim = false;
+bool esDeDia = true; //Funcion de dia y de noche para nuestra luz
 
 int main()
 {
@@ -101,11 +105,16 @@ int main()
     Shader lampshader("Shader/lamp.vs", "Shader/lamp.frag");
     Shader lightingShader("Shader/lighting.vs", "Shader/lighting.frag");
 
+
+
     // Load models
     Model dog((char*)"Models/RedDog.obj");
     Model home((char*)"Models/tripo_convert_55966f99-5f0a-4c22-81f2-20d8129f3e6e.obj");
     Model tree((char*)"Models/tripo_convert_162fbe69-e99e-411e-a99c-a317a3f3ddb7.obj");
-    Model grass((char*)"Models/10450_Rectangular_Grass_Patch_v1_iterations-2.obj"); 
+    Model grass((char*)"Models/10450_Rectangular_Grass_Patch_v1_iterations-2.obj");
+    Model sun((char*)"Models/sun/sun.obj");
+    Model moon((char*)"Models/moon/moon.obj");
+
     glm::mat4 projection = glm::perspective(camera.GetZoom(), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
 
     float vertices[] = {
@@ -179,7 +188,8 @@ int main()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST_MIPMAP_NEAREST);
 
-    image = stbi_load("Models/tripo_image_55966f99-5f0a-4c22-81f2-20d8129f3e6e_0.jpg", &textureWidth, &textureHeight, &nrChannels, 0);
+    
+    image = stbi_load("Models/moon/textures/moon.jpg", &textureWidth, &textureHeight, &nrChannels, 0);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, textureWidth, textureHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
     glGenerateMipmap(GL_TEXTURE_2D);
     if (image)
@@ -192,6 +202,7 @@ int main()
         std::cout << "Failed to load texture" << std::endl;
     }
     stbi_image_free(image);
+
 
     // Game loop
     while (!glfwWindowShouldClose(window))
@@ -208,85 +219,112 @@ int main()
         // Clear the colorbuffer
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
+
+
         lightingShader.Use();
         GLint lightPosLoc = glGetUniformLocation(lightingShader.Program, "light.position");
         GLint viewPosLoc = glGetUniformLocation(lightingShader.Program, "viewPos");
-        glUniform3f(lightPosLoc, lightPos.x + movelightPos, lightPos.y + movelightPos, lightPos.z + movelightPos);
+        lightPos.x = radius * cos(movelightPos);
+        lightPos.y = radius * sin(movelightPos);
+        glUniform3f(lightPosLoc, lightPos.x, lightPos.y, lightPos.z);
         glUniform3f(viewPosLoc, camera.GetPosition().x, camera.GetPosition().y, camera.GetPosition().z);
 
-        // Set lights properties
 
-        glUniform3f(glGetUniformLocation(lightingShader.Program, "light.ambient"), 0.5f, 0.5f, 0.5f);
-        glUniform3f(glGetUniformLocation(lightingShader.Program, "light.diffuse"), 0.6f, 0.6f, 0.6f);
-        glUniform3f(glGetUniformLocation(lightingShader.Program, "light.specular"), 0.8f, 0.6f, 0.6f);
+        // Set lights properties
+        if (esDeDia == true) {
+            glUniform3f(glGetUniformLocation(lightingShader.Program, "light.ambient"), 0.5f, 0.5f, 0.5f);
+            glUniform3f(glGetUniformLocation(lightingShader.Program, "light.diffuse"), 0.6f, 0.6f, 0.6f);
+            glUniform3f(glGetUniformLocation(lightingShader.Program, "light.specular"), 0.8f, 0.6f, 0.6f);
+        }
+        else {
+            glUniform3f(glGetUniformLocation(lightingShader.Program, "light.ambient"), 0.2f, 0.3f, 0.5f);
+            glUniform3f(glGetUniformLocation(lightingShader.Program, "light.diffuse"), 0.3f, 0.5f, 0.8f);
+            glUniform3f(glGetUniformLocation(lightingShader.Program, "light.specular"), 0.4f, 0.6f, 0.9f);
+        }
+
 
         glm::mat4 view = camera.GetViewMatrix();
         glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
         glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "view"), 1, GL_FALSE, glm::value_ptr(view));
 
         // Set material properties
+        if (esDeDia == true) {
+            glUniform3f(glGetUniformLocation(lightingShader.Program, "material.ambient"), 0.6f, 0.6f, 0.6f);
+            glUniform3f(glGetUniformLocation(lightingShader.Program, "material.diffuse"), 0.7f, 0.7f, 0.2f);
+            glUniform3f(glGetUniformLocation(lightingShader.Program, "material.specular"), 0.6f, 0.6f, 0.6f);
+            glUniform1f(glGetUniformLocation(lightingShader.Program, "material.shininess"), 0.6f);
+        }
+        else {
+            glUniform3f(glGetUniformLocation(lightingShader.Program, "material.ambient"), 0.6f, 0.6f, 0.6f);
+            glUniform3f(glGetUniformLocation(lightingShader.Program, "material.diffuse"), 0.2f, 0.2f, 0.7f);
+            glUniform3f(glGetUniformLocation(lightingShader.Program, "material.specular"), 0.6f, 0.6f, 0.6f);
+            glUniform1f(glGetUniformLocation(lightingShader.Program, "material.shininess"), 0.6f);
+        }
 
-        //Dia
-        glUniform3f(glGetUniformLocation(lightingShader.Program, "material.ambient"), 0.6f, 0.6f, 0.6f);
-        glUniform3f(glGetUniformLocation(lightingShader.Program, "material.diffuse"), 0.7f, 0.7f, 0.2f);
-        glUniform3f(glGetUniformLocation(lightingShader.Program, "material.specular"), 0.6f, 0.6f, 0.6f);
-        glUniform1f(glGetUniformLocation(lightingShader.Program, "material.shininess"), 0.6f);
-
-        //Noche
-        /*glUniform3f(glGetUniformLocation(lightingShader.Program, "material.ambient"), 0.6f, 0.6f, 0.6f);
-        glUniform3f(glGetUniformLocation(lightingShader.Program, "material.diffuse"), 0.2f, 0.2f, 0.7f);
-        glUniform3f(glGetUniformLocation(lightingShader.Program, "material.specular"), 0.6f, 0.6f, 0.6f);
-        glUniform1f(glGetUniformLocation(lightingShader.Program, "material.shininess"), 0.6f);*/
 
         // Draw the loaded model
+        glm::mat4 modelLight(1.0f);
+        modelLight = glm::scale(modelLight, glm::vec3(3.0f, 3.0f, 3.0f));
+        glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(modelLight));
 
-        // Aplicar transformación a 'dog'
+        // Aplicar transformaciÃ³n a 'dog'
         glm::mat4 model(1); // Reiniciar a la identidad
         model = glm::translate(model, glm::vec3(-1.69f, -1.8f, -3.1f));
         model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-        // Pasar la matriz de transformación al shader
-        glUniformMatrix4fv(glGetUniformLocation(shader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
-        dog.Draw(shader);
+        // Pasar la matriz de transformaciÃ³n al shader
+        glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+        dog.Draw(lightingShader);
 
-        // Aplicar transformación a 'home'
+        // Aplicar transformaciÃ³n a 'home'
         model = glm::mat4(1.0f); // Reiniciar a la identidad
         model = glm::translate(model, glm::vec3(0.0f, 0.0f, -5.0f));
         model = glm::scale(model, glm::vec3(8.0f, 8.0f, 8.0f));
         model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        // Pasar la matriz de transformación al shader
-        glUniformMatrix4fv(glGetUniformLocation(shader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
-        home.Draw(shader);
+        // Pasar la matriz de transformaciÃ³n al shader
+        glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+        home.Draw(lightingShader);
 
-        // Aplicar transformación a 'tree'
+        // Aplicar transformaciÃ³n a 'tree'
         model = glm::mat4(1.0f); // Reiniciar a la identidad
         model = glm::translate(model, glm::vec3(0.0f, 1.43f, -10.0f));
         model = glm::scale(model, glm::vec3(20.0f, 20.0f, 10.0f));
         model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        // Pasar la matriz de transformación al shader
-        glUniformMatrix4fv(glGetUniformLocation(shader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
-        tree.Draw(shader);
+        // Pasar la matriz de transformaciÃ³n al shader
+        glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+        tree.Draw(lightingShader);
 
-        // Aplicar transformación a 'grass' primera parte 
+        // Aplicar transformaciÃ³n a 'grass' primera parte 
         model = glm::mat4(1.0f); // Reiniciar a la identidad
         model = glm::translate(model, glm::vec3(0.0f, -7.0f, -5.0f));
         model = glm::scale(model, glm::vec3(10.0f, 0.5f, 10.0f));
         model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(8.0f, 1.0f, 0.0f));
-        // Pasar la matriz de transformación al shader
-        glUniformMatrix4fv(glGetUniformLocation(shader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
-        grass.Draw(shader);
-        
+        // Pasar la matriz de transformaciÃ³n al shader
+        glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+        grass.Draw(lightingShader);
+
+
+
         glBindVertexArray(0);
 
+
         lampshader.Use();
+
+        glm::mat4 modelSun = glm::mat4(1.0f);
+        modelSun = glm::translate(modelSun, lightPos); // Coloca el modelo en la posiciï¿½n de la luz
+        modelSun = glm::scale(modelSun, glm::vec3(0.1f));
+
+        glUniformMatrix4fv(glGetUniformLocation(lampshader.Program, "model"), 1, GL_FALSE, glm::value_ptr(modelSun));
         glUniformMatrix4fv(glGetUniformLocation(lampshader.Program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
         glUniformMatrix4fv(glGetUniformLocation(lampshader.Program, "view"), 1, GL_FALSE, glm::value_ptr(view));
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, lightPos + movelightPos);
-        model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
-        glUniformMatrix4fv(glGetUniformLocation(lampshader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
-        glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 36);
+        glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(modelSun));
+
+        if (esDeDia == true) {
+            sun.Draw(lampshader);
+        }
+        else {
+            moon.Draw(lampshader);
+        }
+
         glBindVertexArray(0);
 
         // Swap the buffers
@@ -299,6 +337,7 @@ int main()
     glfwTerminate();
     return 0;
 }
+
 
 // Moves/alters the camera positions based on user input
 void DoMovement()
@@ -354,15 +393,22 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
 
     if (keys[GLFW_KEY_O])
     {
-       
+
         movelightPos += 0.1f;
     }
 
     if (keys[GLFW_KEY_L])
     {
-        
+
         movelightPos -= 0.1f;
     }
+
+    if (keys[GLFW_KEY_T])
+    {
+
+        esDeDia = not(esDeDia);
+    }
+
 
 }
 
