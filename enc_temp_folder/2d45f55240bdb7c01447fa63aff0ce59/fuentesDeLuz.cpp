@@ -256,7 +256,7 @@ int main()
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[1].linear"),    0.045f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[1].quadratic"), 0.075f);
 
-		// Point light 3 Lampara
+		// Point light 3 Preterminada Lampara
 		glm::vec3 lightColor2;
 		lightColor2.x = abs(sin(glfwGetTime() * Light3.x));
 		lightColor2.y = abs(sin(glfwGetTime() * Light3.y));
@@ -270,7 +270,7 @@ int main()
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[2].linear"),    0.045f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[2].quadratic"), 0.075f);
 
-		// Point light 4 Preterminada 
+		// Point light 4 Lampara
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[3].position"), pointLightPositions[3].x, pointLightPositions[3].y, pointLightPositions[3].z);
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[3].ambient"),   0.4f, 0.4f, 0.4f);
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[3].diffuse"),   0.5f, 0.5f, 0.5f);
