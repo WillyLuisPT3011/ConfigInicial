@@ -443,11 +443,11 @@ void Animation() {
 	if (AnimBall)
 	{
 		rotBall += 0.2f;
-		//printf("%f", rotBall);
+		printf("%f", rotBall);
 	}
 	else
 	{
-		//rotBall = 0.0f;
+		rotBall = 0.0f;
 	}
 }
 
