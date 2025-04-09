@@ -106,6 +106,11 @@ glm::vec3 Light1 = glm::vec3(0);
 //Anim
 float rotBall = 0;
 bool AnimBall = false;
+bool pelotaArriba = true; // true = en la nariz, false = en la posición de la luz
+float posYBall = 0.0f; // Aumenta el valor a la altura deseada
+float limiteInferior = 0.0f; // Ajusta según donde desees que la pelota toque el piso
+float limiteSuperior = 1.6f; // Ajusta la altura de la nariz del perro
+
 
 
 // Deltatime
@@ -292,7 +297,8 @@ int main()
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 1);
-		model = glm::rotate(model, glm::radians(rotBall), glm::vec3(0.0f, 1.0f, 0.0f));
+		/*model = glm::rotate(model, glm::radians(rotBall), glm::vec3(0.0f, 1.0f, 0.0f));*/
+		model = glm::translate(model, glm::vec3(0.0f, posYBall, 0.0f)); // usa el valor animado // <- estaba fijo en Y
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 	    Ball.Draw(lightingShader); 
 		glDisable(GL_BLEND);  //Desactiva el canal alfa 
@@ -435,12 +441,30 @@ void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode
 	}
 	if (keys[GLFW_KEY_N])
 	{
+		/*AnimBall = !AnimBall;*/
 		AnimBall = !AnimBall;
 		
 	}
 }
 void Animation() {
-	if (AnimBall)
+	// Actualizar la posición vertical de la pelota
+	if (AnimBall) {
+		if (pelotaArriba) {
+			posYBall += 0.01f;
+			if (posYBall >= limiteSuperior) {
+				pelotaArriba = false;  // Cuando llega a la nariz, cambia la dirección
+			}
+		}
+		else {
+			posYBall -= 0.01f;
+			if (posYBall <= limiteInferior) {
+				pelotaArriba = true;  // Cuando llega al límite inferior, cambia la dirección
+			}
+			
+		}
+	}
+
+	/*if (AnimBall)
 	{
 		rotBall += 0.2f;
 		printf("%f", rotBall);
@@ -448,7 +472,7 @@ void Animation() {
 	else
 	{
 		rotBall = 0.0f;
-	}
+	}*/
 }
 
 void MouseCallback(GLFWwindow *window, double xPos, double yPos)
