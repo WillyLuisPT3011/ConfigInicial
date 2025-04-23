@@ -533,7 +533,7 @@ void Animation() {
 			head += 0.3f;
 			tail += 0.3f;
 
-			if (RLegs > 17.0f)    // Condition
+			if (RLegs > 15.0f)    // Condition
 				step = true;
 		}
 		else {
@@ -543,12 +543,16 @@ void Animation() {
 			head -= 0.3f;
 			tail -= 0.3f;
 
-			if (RLegs < -17.0f)    // Condition
+			if (RLegs < -15.0f)    // Condition
 				step = false;
 
 		}
 
-		dogPos.z += 0.001;
+		if (dogPos.z < 2.3f) {
+			dogPos.z += 0.001;
+		}
+		
+		/*dogPos.z += 0.001;*/
 		/*printf("/n%f", RLegs);*/
 
 	}
